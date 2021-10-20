@@ -7,23 +7,10 @@ exports.handler = async function http(req) {
   let key = 'Japanese'
   let greeting = `Kon'nichiwa`
 
-  try {
-    await data.set({ table, key, greeting })
-
-    let doc = await data.get({ table, key })
-
-    console.log('doc', doc)
-  } catch (error) {
-    console.error(error)
-  }
-
   return {
-    headers: {
-      'content-type': 'application/json; charset=utf8',
-      'cache-control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0'
-    },
     statusCode: 200,
-    body: JSON.stringify({ thing: `Hello ${table}!` })
+    headers: { 'content-type': 'application/json; charset=utf8' },
+    body: JSON.stringify({ ok: true, stuff: `${table}-${key}-${greeting}` }),
   }
 }
 
