@@ -1,6 +1,3 @@
-let data = require('@begin/data')
-let begin = require('@architect/functions')
-
 exports.handler = async function http(req) {
 
   let table = 'greetings'
