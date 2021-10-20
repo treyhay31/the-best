@@ -1,26 +1,14 @@
+let data = require('@begin/data')
+let begin = require('@architect/functions') 
+
 exports.handler = async function http(req) {
-
-  let html = `
-<!doctype html>
-<html lang=en>
-  <head>
-    <meta charset=utf-8>
-    <title>Hi!</title>
-    <link rel="stylesheet" href="https://static.begin.app/starter/default.css">
-    <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" rel="icon" type="image/x-icon">
-  </head>
-  <body>
-
-    <h1 class="center-text">
-      Let's do this!
-    </h1>
-
-    <p class="center-text">
-      Your <a href="https://begin.com" class="link" target="_blank">Begin</a> app is ready to go!
-    </p>
-
-  </body>
-</html>`
+  
+  let session = await begin.http.session.read(req)
+  
+  let account = await data.get({
+    table: 'accounts',
+    key: session.accountID
+  })
 
   return {
     headers: {
@@ -30,12 +18,18 @@ exports.handler = async function http(req) {
     statusCode: 200,
     body: {
       status: "good",
-      thing: "here",
+      thing: `Hello ${account.name}!`,
       num: 1
     }
   }
 }
 
+
+// Reads & writes session data
+
+exports.handler = async function http(request) {
+  
+}
 // Other example responses
 
 /* Forward requester to a new path
